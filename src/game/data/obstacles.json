@@ -1,0 +1,5 @@
+[
+  { "id": "rock", "radius": 22, "damage": 1.0, "color": "#7c8597" },
+  { "id": "specter", "radius": 18, "damage": 1.3, "color": "#b91c1c" },
+  { "id": "pillar", "radius": 26, "damage": 1.1, "color": "#6b7280" }
+]

@@ -1,0 +1,140 @@
+[
+  {
+    "id": "defense",
+    "title": "Соцпакет (Защита)",
+    "levels": [
+      {
+        "cost": 120,
+        "title": "Страховка",
+        "shortDesc": "Первый удар бесплатный (1 щит)",
+        "effect": {
+          "shieldStart": 1,
+          "shieldRegenSec": 0,
+          "obstacleDamageMult": 0.95
+        }
+      },
+      {
+        "cost": 220,
+        "title": "Золотой парашют",
+        "shortDesc": "Реген щита раз в 22с",
+        "effect": {
+          "shieldStart": 2,
+          "shieldRegenSec": 0,
+          "obstacleDamageMult": 0.85
+        }
+      },
+      {
+        "cost": 340,
+        "title": "ДМС+ (2 щита)",
+        "shortDesc": "Старт с 2 щитами",
+        "effect": {
+          "shieldStart": 2,
+          "shieldRegenSec": 22,
+          "obstacleDamageMult": 0.78
+        }
+      },
+      {
+        "cost": 520,
+        "title": "Юр.отдел",
+        "shortDesc": "Урон от препятствий −50%",
+        "effect": {
+          "shieldStart": 3,
+          "shieldRegenSec": 16,
+          "obstacleDamageMult": 0.7
+        }
+      }
+    ]
+  },
+  {
+    "id": "farm",
+    "title": "Отдел продаж (Фарм)",
+    "levels": [
+      {
+        "cost": 120,
+        "title": "Холодные звонки",
+        "shortDesc": "Магнит +20%",
+        "effect": {
+          "magnetMult": 1.15,
+          "soulValueMult": 1.05,
+          "doubleSoulChance": 0
+        }
+      },
+      {
+        "cost": 230,
+        "title": "Агрессивный маркетинг",
+        "shortDesc": "Души x1.2",
+        "effect": {
+          "magnetMult": 1.3,
+          "soulValueMult": 1.1,
+          "doubleSoulChance": 0.05
+        }
+      },
+      {
+        "cost": 360,
+        "title": "Монополия",
+        "shortDesc": "Магнит +50%",
+        "effect": {
+          "magnetMult": 1.45,
+          "soulValueMult": 1.2,
+          "doubleSoulChance": 0.12
+        }
+      },
+      {
+        "cost": 540,
+        "title": "Двойная касса",
+        "shortDesc": "10% шанс двойной души",
+        "effect": {
+          "magnetMult": 1.65,
+          "soulValueMult": 1.35,
+          "doubleSoulChance": 0.2
+        }
+      }
+    ]
+  },
+  {
+    "id": "skills",
+    "title": "Эффективность (Навыки)",
+    "levels": [
+      {
+        "cost": 130,
+        "title": "Тайм-менеджмент",
+        "shortDesc": "КД откупа −10%",
+        "effect": {
+          "bribeCooldownMult": 0.9,
+          "freeBribeEverySec": 0,
+          "bribeSplashRadius": 0
+        }
+      },
+      {
+        "cost": 260,
+        "title": "Купон на взятку",
+        "shortDesc": "1 бесплатный откуп раз в 28с",
+        "effect": {
+          "bribeCooldownMult": 0.82,
+          "freeBribeEverySec": 28,
+          "bribeSplashRadius": 0
+        }
+      },
+      {
+        "cost": 390,
+        "title": "Оптимизация процессов",
+        "shortDesc": "КД откупа −30%",
+        "effect": {
+          "bribeCooldownMult": 0.74,
+          "freeBribeEverySec": 20,
+          "bribeSplashRadius": 24
+        }
+      },
+      {
+        "cost": 600,
+        "title": "Решение вопросов пакетно",
+        "shortDesc": "Залповый откуп (splash)",
+        "effect": {
+          "bribeCooldownMult": 0.64,
+          "freeBribeEverySec": 14,
+          "bribeSplashRadius": 44
+        }
+      }
+    ]
+  }
+]

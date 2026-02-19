@@ -1,0 +1,5 @@
+[
+  { "id": "contract_01", "title": "Собери 100 оболов", "reward": 25 },
+  { "id": "contract_02", "title": "Пройди через 3 врат", "reward": 20 },
+  { "id": "contract_03", "title": "Разрушь 8 препятствий", "reward": 30 }
+]

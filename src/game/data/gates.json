@@ -1,0 +1,31 @@
+[
+  {
+    "id": "MERCY",
+    "name": "Врата Милости",
+    "description": "Уменьшает штраф от столкновений",
+    "durationSec": 12,
+    "effects": { "collisionPenaltyMultiplier": 0.5 }
+  },
+  {
+    "id": "PLENTY",
+    "name": "Врата Изобилия",
+    "description": "Увеличивает ценность монет",
+    "durationSec": 12,
+    "effects": { "pickupMultiplier": 1.7 }
+  },
+  {
+    "id": "SWIFT",
+    "name": "Врата Стремнины",
+    "description": "Ускоряет лодку",
+    "durationSec": 10,
+    "effects": { "speedMultiplier": 1.35 }
+  },
+  {
+    "id": "DEBT",
+    "name": "Врата Долга",
+    "description": "Постоянный долг повышает дренаж",
+    "durationSec": 0,
+    "permanent": true,
+    "effects": { "drainMultiplier": 1.35 }
+  }
+]

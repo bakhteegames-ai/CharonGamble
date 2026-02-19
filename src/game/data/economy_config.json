@@ -1,0 +1,16 @@
+{
+  "startCoins": 40,
+  "coinDrainTiers": [
+    { "fromSec": 0, "rate": 0.8 },
+    { "fromSec": 40, "rate": 1.4 },
+    { "fromSec": 90, "rate": 2.2 }
+  ],
+  "pickupValue": 6,
+  "collisionPenalty": 8,
+  "bribeShotCost": 1,
+  "freeBribeChance": 0.2,
+  "firstGateDelaySec": 18,
+  "gateIntervalSec": 20,
+  "gateDurationSec": 12,
+  "minInterstitialIntervalSec": 70
+}
