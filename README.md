@@ -30,10 +30,10 @@
 
 ## npm scripts
 
-- `npm run dev` - start local Vite development server (auto-downloads tooling via `npx` if needed).
-- `npm run build` - type-check and produce production build.
-- `npm run preview` - preview built app locally.
-- `npm run check` - run TypeScript type checking only.
+- `npm run dev` - start local Vite development server (`npx --yes vite`).
+- `npm run build` - type-check and produce production build (`npx --yes tsc -b && npx --yes vite build`).
+- `npm run preview` - preview built app locally (`npx --yes vite preview`).
+- `npm run check` - run TypeScript type checking only (`npx --yes tsc --noEmit`).
 
 ## How to run
 
