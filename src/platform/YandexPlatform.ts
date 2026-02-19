@@ -56,6 +56,7 @@ export class YandexPlatform implements Platform {
   private pauseCbs: Array<() => void> = [];
   private resumeCbs: Array<() => void> = [];
   private loadingReadySent = false;
+  private adDepth = 0;
 
   async init(): Promise<void> {
     if (!window.YaGames?.init) {
@@ -88,10 +89,16 @@ export class YandexPlatform implements Platform {
     }
 
     this.ysdk.on?.('game_api_pause', () => {
+      if (this.adDepth > 0) {
+        return;
+      }
       this.pauseCbs.forEach((cb) => cb());
     });
 
     this.ysdk.on?.('game_api_resume', () => {
+      if (this.adDepth > 0) {
+        return;
+      }
       this.resumeCbs.forEach((cb) => cb());
     });
   }
@@ -103,6 +110,11 @@ export class YandexPlatform implements Platform {
 
     return new Promise<boolean>((resolve) => {
       let opened = false;
+      this.adDepth += 1;
+      const finish = () => {
+        this.adDepth = Math.max(0, this.adDepth - 1);
+      };
+
       this.ysdk?.adv?.showFullscreenAdv?.({
         onOpen: () => {
           opened = true;
@@ -113,12 +125,14 @@ export class YandexPlatform implements Platform {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(Boolean(wasShown));
+          finish();
         },
         onError: () => {
           if (opened) {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(false);
+          finish();
         }
       });
     });
@@ -132,6 +146,11 @@ export class YandexPlatform implements Platform {
     return new Promise<boolean>((resolve) => {
       let rewarded = false;
       let opened = false;
+      this.adDepth += 1;
+      const finish = () => {
+        this.adDepth = Math.max(0, this.adDepth - 1);
+      };
+
       this.ysdk?.adv?.showRewardedVideo?.({
         onOpen: () => {
           opened = true;
@@ -145,12 +164,14 @@ export class YandexPlatform implements Platform {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(rewarded);
+          finish();
         },
         onError: () => {
           if (opened) {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(false);
+          finish();
         }
       });
     });
