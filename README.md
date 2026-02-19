@@ -37,21 +37,24 @@
 
 ## How to run
 
-1. Run dev server:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start dev server:
    ```bash
    npm run dev
    ```
-2. Open the printed localhost URL in browser.
+3. Open the printed localhost URL in browser.
 
-### If you see: "vite" is not recognized ... (Windows)
+### If you see: "vite не является внутренней или внешней командой" (Windows)
 
-This means dependencies were not installed yet. Run:
+Run dependencies install and then retry script (it runs Vite via `npx --yes`):
 
 ```bash
 npm install
+npm run dev
 ```
-
-Then run `npm run dev` again.
 
 ## Gameplay MVP implemented
 
