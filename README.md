@@ -49,7 +49,7 @@
 
 ### If you see: "vite не является внутренней или внешней командой" (Windows)
 
-Run dependencies install and then retry script (it runs Vite via `npx --yes`):
+Install dependencies and run dev server again:
 
 ```bash
 npm install
