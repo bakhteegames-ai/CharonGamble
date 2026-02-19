@@ -150,6 +150,9 @@ export class Game {
   private dragPointerId: number | null = null;
   private lastTime = 0;
   private dpr = 1;
+  private platformPauseDepth = 0;
+  private wasPausedBeforePlatformPause = false;
+  private wasMutedBeforePlatformPause = false;
 
   constructor(root: HTMLElement, config: GameConfig, platform: Platform) {
     this.config = config;
@@ -392,6 +395,11 @@ export class Game {
     });
 
     this.platform.onPause(() => {
+      if (this.platformPauseDepth === 0) {
+        this.wasPausedBeforePlatformPause = this.paused;
+        this.wasMutedBeforePlatformPause = this.audio.isMuted();
+      }
+      this.platformPauseDepth += 1;
       this.paused = true;
       this.pausedByUser = false;
       this.audio.setMuted(true);
@@ -400,12 +408,20 @@ export class Game {
     });
 
     this.platform.onResume(() => {
-      if (!this.manualPaused && !this.gameOver) {
-        this.paused = false;
-        this.audio.setMuted(false);
-        this.updatePauseButtonLabel();
-        this.syncBannerVisibility();
+      if (this.platformPauseDepth <= 0) {
+        return;
       }
+
+      this.platformPauseDepth -= 1;
+      if (this.platformPauseDepth > 0) {
+        return;
+      }
+
+      const shouldStayPaused = this.gameOver || this.manualPaused || this.wasPausedBeforePlatformPause;
+      this.paused = shouldStayPaused;
+      this.audio.setMuted(this.wasMutedBeforePlatformPause);
+      this.updatePauseButtonLabel();
+      this.syncBannerVisibility();
     });
 
     this.reviveButton.addEventListener('click', async () => {

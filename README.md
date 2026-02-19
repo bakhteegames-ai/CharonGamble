@@ -30,28 +30,31 @@
 
 ## npm scripts
 
-- `npm run dev` - start local Vite development server (auto-downloads tooling via `npx` if needed).
-- `npm run build` - type-check and produce production build.
-- `npm run preview` - preview built app locally.
-- `npm run check` - run TypeScript type checking only.
+- `npm run dev` - start local Vite development server (`npx --yes vite`).
+- `npm run build` - type-check and produce production build (`npx --yes tsc -b && npx --yes vite build`).
+- `npm run preview` - preview built app locally (`npx --yes vite preview`).
+- `npm run check` - run TypeScript type checking only (`npx --yes tsc --noEmit`).
 
 ## How to run
 
-1. Run dev server:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start dev server:
    ```bash
    npm run dev
    ```
-2. Open the printed localhost URL in browser.
+3. Open the printed localhost URL in browser.
 
-### If you see: "vite" is not recognized ... (Windows)
+### If you see: "vite не является внутренней или внешней командой" (Windows)
 
-This means dependencies were not installed yet. Run:
+Install dependencies and run dev server again:
 
 ```bash
 npm install
+npm run dev
 ```
-
-Then run `npm run dev` again.
 
 ## Gameplay MVP implemented
 

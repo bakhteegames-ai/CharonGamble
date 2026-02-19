@@ -9,6 +9,7 @@
     "preview": "npx --yes vite preview",
     "check": "npx --yes tsc --noEmit"
   },
+
   "dependencies": {
     "vite": "^5.4.11"
   },

@@ -50,12 +50,20 @@ declare global {
   }
 }
 
+const FULLSCREEN_COOLDOWN_KEY = 'yandex_last_fullscreen_ts';
+const REWARDED_COOLDOWN_KEY = 'yandex_last_rewarded_ts';
+
 export class YandexPlatform implements Platform {
   private ysdk: YsdkLike | null = null;
   private player: YandexPlayerLike | null = null;
   private pauseCbs: Array<() => void> = [];
   private resumeCbs: Array<() => void> = [];
   private loadingReadySent = false;
+  private adDepth = 0;
+  private readonly fullscreenCooldownMs = 90000;
+  private readonly rewardedCooldownMs = 20000;
+  private lastFullscreenTs = 0;
+  private lastRewardedTs = 0;
 
   async init(): Promise<void> {
     if (!window.YaGames?.init) {
@@ -87,11 +95,20 @@ export class YandexPlatform implements Platform {
       this.player = null;
     }
 
+    this.lastFullscreenTs = this.readTimestamp(FULLSCREEN_COOLDOWN_KEY);
+    this.lastRewardedTs = this.readTimestamp(REWARDED_COOLDOWN_KEY);
+
     this.ysdk.on?.('game_api_pause', () => {
+      if (this.adDepth > 0) {
+        return;
+      }
       this.pauseCbs.forEach((cb) => cb());
     });
 
     this.ysdk.on?.('game_api_resume', () => {
+      if (this.adDepth > 0) {
+        return;
+      }
       this.resumeCbs.forEach((cb) => cb());
     });
   }
@@ -101,8 +118,21 @@ export class YandexPlatform implements Platform {
       return false;
     }
 
+    const now = Date.now();
+    if (now - this.lastFullscreenTs < this.fullscreenCooldownMs) {
+      return false;
+    }
+
+    this.lastFullscreenTs = now;
+    this.writeTimestamp(FULLSCREEN_COOLDOWN_KEY, this.lastFullscreenTs);
+
     return new Promise<boolean>((resolve) => {
       let opened = false;
+      this.adDepth += 1;
+      const finish = () => {
+        this.adDepth = Math.max(0, this.adDepth - 1);
+      };
+
       this.ysdk?.adv?.showFullscreenAdv?.({
         onOpen: () => {
           opened = true;
@@ -113,12 +143,14 @@ export class YandexPlatform implements Platform {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(Boolean(wasShown));
+          finish();
         },
         onError: () => {
           if (opened) {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(false);
+          finish();
         }
       });
     });
@@ -129,9 +161,22 @@ export class YandexPlatform implements Platform {
       return false;
     }
 
+    const now = Date.now();
+    if (now - this.lastRewardedTs < this.rewardedCooldownMs) {
+      return false;
+    }
+
+    this.lastRewardedTs = now;
+    this.writeTimestamp(REWARDED_COOLDOWN_KEY, this.lastRewardedTs);
+
     return new Promise<boolean>((resolve) => {
       let rewarded = false;
       let opened = false;
+      this.adDepth += 1;
+      const finish = () => {
+        this.adDepth = Math.max(0, this.adDepth - 1);
+      };
+
       this.ysdk?.adv?.showRewardedVideo?.({
         onOpen: () => {
           opened = true;
@@ -145,12 +190,14 @@ export class YandexPlatform implements Platform {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(rewarded);
+          finish();
         },
         onError: () => {
           if (opened) {
             this.resumeCbs.forEach((cb) => cb());
           }
           resolve(false);
+          finish();
         }
       });
     });
@@ -202,6 +249,24 @@ export class YandexPlatform implements Platform {
       return false;
     }
   }
+  private readTimestamp(key: string): number {
+    try {
+      const raw = localStorage.getItem(key);
+      const parsed = Number(raw);
+      return Number.isFinite(parsed) ? parsed : 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  private writeTimestamp(key: string, value: number): void {
+    try {
+      localStorage.setItem(key, String(value));
+    } catch {
+      // no-op
+    }
+  }
+
   onPause(cb: () => void): void {
     this.pauseCbs.push(cb);
   }
